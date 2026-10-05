@@ -1,0 +1,16 @@
+github.com/BrownNPC/Raylib-Go-Wasm/raylib v0.0.0-20260620162612-9ae8b5bb90ca h1:RNG23IKiktXaqy5nwqGWAbTVALNMFxfqCT3LAysJnZU=
+github.com/BrownNPC/Raylib-Go-Wasm/raylib v0.0.0-20260620162612-9ae8b5bb90ca/go.mod h1:FRSn08Cms7Yn9WyXk/85LzXoHziJOZZpVevfQBDpVFk=
+github.com/BrownNPC/Raylib-Go-Wasm/wasm-runtime v0.0.0-20260620162612-9ae8b5bb90ca h1:WXs3Jsamwn6q05B3QPvZ3efeuMhS7kbVxpqkBJjzrQk=
+github.com/BrownNPC/Raylib-Go-Wasm/wasm-runtime v0.0.0-20260620162612-9ae8b5bb90ca/go.mod h1:QsnK1qtIkvF266TxA0tLoodc1tRYqMweTl0CUZanRCg=
+github.com/BrownNPC/wasm-ffi-go v1.3.0 h1:lnVeot/PN2bZtMqnaeEl89wRgvbOEvxSBlOEXZvW6tA=
+github.com/BrownNPC/wasm-ffi-go v1.3.0/go.mod h1:D5+RBMb672fgw6vPz4HOWYxpyrmPrIao8VqlXihOFFg=
+github.com/ebitengine/purego v0.10.1 h1:dewVBCBT2GaMu1SrNTYxQhgQBethzfhiwvZiLGP/qyY=
+github.com/ebitengine/purego v0.10.1/go.mod h1:iIjxzd6CiRiOG0UyXP+V1+jWqUXVjPKLAI0mRfJZTmQ=
+github.com/gen2brain/raylib-go/raygui v0.0.0-20260619180708-8f9e96aca992 h1:PyGNZCkgOxXTRH8jsYqQ21LQDVgcJobzRui7IXl5z28=
+github.com/gen2brain/raylib-go/raygui v0.0.0-20260619180708-8f9e96aca992/go.mod h1:9WxQA2oI5b0q/B6dX9/WOaAdMN+IxsSeaB6JnJ2HY3k=
+github.com/gen2brain/raylib-go/raylib v0.60.0 h1:KsP7W3EMkmb9zztivdgbh1bXR78pEuqP6jeUR8GCbEA=
+github.com/gen2brain/raylib-go/raylib v0.60.0/go.mod h1:puAMU7Zcx6VJ6pcZSSs3gGFPyFvJuTwQlfm4KzeoXy8=
+github.com/jupiterrider/ffi v0.7.0 h1:RKsl6Ascal+3kyAqR5Qcbp83LceQMLc1VZbPfHWoNzs=
+github.com/jupiterrider/ffi v0.7.0/go.mod h1:9dauhpOfNqrqk28fxuu0kkdeFtT9Qr4vbfigiuIXN7c=
+golang.org/x/exp v0.0.0-20260611194520-c48552f49976 h1:X8Hz2ImujgbmetVuW+w2YkyZChE3cBpZi2P158rTG9M=
+golang.org/x/exp v0.0.0-20260611194520-c48552f49976/go.mod h1:vnf4pv9iKZXY58sQE1L86zmNWJ4159e1RkcWiLCkeEY=

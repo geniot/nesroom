@@ -1,0 +1,6 @@
+{
+  "label":    "Nesroom",
+  "icon":     "icon.png",
+  "launch":   "launch.sh",
+  "description":      "NES Emulator"
+}
