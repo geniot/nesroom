@@ -2,7 +2,6 @@ package nes
 
 import (
 	"encoding/gob"
-	"image"
 	"image/color"
 	"io"
 	"os"
@@ -74,7 +73,7 @@ func (console *Console) StepSeconds(seconds float64) {
 	}
 }
 
-func (console *Console) Buffer() *image.RGBA {
+func (console *Console) Buffer() []color.RGBA {
 	return console.PPU.front
 }
 

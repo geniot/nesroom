@@ -2,7 +2,7 @@ package nes
 
 import (
 	"encoding/gob"
-	"image"
+	"image/color"
 )
 
 const (
@@ -22,8 +22,8 @@ type PPU struct {
 	paletteData   [32]byte
 	nameTableData [2048]byte
 	oamData       [256]byte
-	front         *image.RGBA
-	back          *image.RGBA
+	front         []color.RGBA
+	back          []color.RGBA
 
 	// PPU registers
 	v uint16 // current vram address (15 bit)
@@ -85,8 +85,8 @@ type PPU struct {
 
 func NewPPU(console *Console) *PPU {
 	ppu := PPU{Memory: NewPPUMemory(console), console: console}
-	ppu.front = image.NewRGBA(image.Rect(0, 0, 256, 240))
-	ppu.back = image.NewRGBA(image.Rect(0, 0, 256, 240))
+	ppu.front = make([]color.RGBA, ScreenLogicalHeight*ScreenLogicalWidth)
+	ppu.back = make([]color.RGBA, ScreenLogicalHeight*ScreenLogicalWidth)
 	ppu.Reset()
 	return &ppu
 }
@@ -568,7 +568,7 @@ func (ppu *PPU) renderPixel() {
 		}
 	}
 	c := Palette[ppu.readPalette(uint16(color))%64]
-	ppu.back.SetRGBA(x, y, c)
+	ppu.back[y*int(ScreenLogicalWidth)+x] = c
 }
 
 func (ppu *PPU) fetchSpritePattern(i, row int) uint32 {
