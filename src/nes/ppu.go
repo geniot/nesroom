@@ -2,8 +2,7 @@ package nes
 
 import (
 	"encoding/gob"
-
-	rl "github.com/gen2brain/raylib-go/raylib"
+	"image"
 )
 
 const (
@@ -15,16 +14,16 @@ type PPU struct {
 	Memory           // memory interface
 	console *Console // reference to parent object
 
-	Cycle    int32  // 0-340
-	ScanLine int32  // 0-261, 0-239=visible, 240=post, 241-260=vblank, 261=pre
+	Cycle    int    // 0-340
+	ScanLine int    // 0-261, 0-239=visible, 240=post, 241-260=vblank, 261=pre
 	Frame    uint64 // frame counter
 
 	// storage variables
 	paletteData   [32]byte
 	nameTableData [2048]byte
 	oamData       [256]byte
-	front         rl.RenderTexture2D
-	back          rl.RenderTexture2D
+	front         *image.RGBA
+	back          *image.RGBA
 
 	// PPU registers
 	v uint16 // current vram address (15 bit)
@@ -86,8 +85,8 @@ type PPU struct {
 
 func NewPPU(console *Console) *PPU {
 	ppu := PPU{Memory: NewPPUMemory(console), console: console}
-	ppu.front = rl.LoadRenderTexture(ScreenLogicalWidth, ScreenLogicalHeight)
-	ppu.back = rl.LoadRenderTexture(ScreenLogicalWidth, ScreenLogicalHeight)
+	ppu.front = image.NewRGBA(image.Rect(0, 0, 256, 240))
+	ppu.back = image.NewRGBA(image.Rect(0, 0, 256, 240))
 	ppu.Reset()
 	return &ppu
 }
@@ -524,7 +523,7 @@ func (ppu *PPU) spritePixel() (byte, byte) {
 		return 0, 0
 	}
 	for i := 0; i < ppu.spriteCount; i++ {
-		offset := (ppu.Cycle - 1) - int32(ppu.spritePositions[i])
+		offset := (ppu.Cycle - 1) - int(ppu.spritePositions[i])
 		if offset < 0 || offset > 7 {
 			continue
 		}
@@ -569,12 +568,10 @@ func (ppu *PPU) renderPixel() {
 		}
 	}
 	c := Palette[ppu.readPalette(uint16(color))%64]
-	rl.BeginTextureMode(ppu.back)
-	rl.DrawPixel(x, y, c)
-	rl.EndTextureMode()
+	ppu.back.SetRGBA(x, y, c)
 }
 
-func (ppu *PPU) fetchSpritePattern(i, row int32) uint32 {
+func (ppu *PPU) fetchSpritePattern(i, row int) uint32 {
 	tile := ppu.oamData[i*4+1]
 	attributes := ppu.oamData[i*4+2]
 	var address uint16
@@ -620,18 +617,18 @@ func (ppu *PPU) fetchSpritePattern(i, row int32) uint32 {
 }
 
 func (ppu *PPU) evaluateSprites() {
-	var h int32
+	var h int
 	if ppu.flagSpriteSize == 0 {
 		h = 8
 	} else {
 		h = 16
 	}
 	count := 0
-	for i := int32(0); i < 64; i++ {
+	for i := 0; i < 64; i++ {
 		y := ppu.oamData[i*4+0]
 		a := ppu.oamData[i*4+2]
 		x := ppu.oamData[i*4+3]
-		row := ppu.ScanLine - int32(y)
+		row := ppu.ScanLine - int(y)
 		if row < 0 || row >= h {
 			continue
 		}

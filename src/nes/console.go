@@ -2,11 +2,11 @@ package nes
 
 import (
 	"encoding/gob"
+	"image"
 	"image/color"
+	"io"
 	"os"
 	"path"
-
-	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
 type Console struct {
@@ -20,8 +20,8 @@ type Console struct {
 	RAM         []byte
 }
 
-func NewConsole(path string) (*Console, error) {
-	cartridge, err := LoadNESFile(path)
+func NewConsole(reader io.Reader) (*Console, error) {
+	cartridge, err := LoadNESFile(reader)
 	if err != nil {
 		return nil, err
 	}
@@ -74,8 +74,8 @@ func (console *Console) StepSeconds(seconds float64) {
 	}
 }
 
-func (console *Console) Buffer() *rl.RenderTexture2D {
-	return &console.PPU.front
+func (console *Console) Buffer() *image.RGBA {
+	return console.PPU.front
 }
 
 func (console *Console) BackgroundColor() color.RGBA {
