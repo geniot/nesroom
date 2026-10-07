@@ -2,25 +2,25 @@ package main
 
 // TSP button codes
 const (
-	upCode = iota + 1
-	rightCode
-	downCode
-	leftCode
-	xCode
-	aCode
-	bCode
-	yCode
-	l1Code
-	l2Code
-	r1Code
-	r2Code
-	selectCode
-	menuCode
-	startCode
+	TspUpCode = iota + 1
+	TspRightCode
+	TspDownCode
+	TspLeftCode
+	TspXCode
+	TspACode
+	TspBCode
+	TspYCode
+	TspL1Code
+	TspL2Code
+	TspR1Code
+	TspR2Code
+	TspSelectCode
+	TspMenuCode
+	TspStartCode
 )
 
 const (
-	winHeight = 720
-	winWidth  = 1280
-	gamePadId = int32(0)
+	TspWinHeight = 720
+	TspWinWidth  = 1280
+	GamePadId    = int32(0)
 )

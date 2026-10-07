@@ -36,7 +36,7 @@ func NewApplication(iw bool) *Application {
 	// the order of these calls matters
 	rl.SetTraceLogLevel(rl.LogTrace)
 	rl.SetConfigFlags(rl.FlagVsyncHint | rl.FlagWindowResizable) //should be set before window initialization!
-	rl.InitWindow(winWidth, winHeight, "NESRoom")
+	rl.InitWindow(TspWinWidth, TspWinHeight, "NESRoom")
 	if !app.isWeb {
 		scaleFactor := int32(3)
 		rl.SetWindowSize(int(nes.ScreenLogicalWidth*scaleFactor), int(nes.ScreenLogicalHeight*scaleFactor))
@@ -105,7 +105,7 @@ func (a *Application) Render() {
 func (a *Application) ShouldExit() bool {
 	return rl.WindowShouldClose() ||
 		a.scenes[a.currentSceneIndex].ShouldExit() ||
-		rl.IsGamepadButtonDown(gamePadId, menuCode) && rl.IsGamepadButtonDown(gamePadId, startCode)
+		rl.IsGamepadButtonDown(GamePadId, TspMenuCode) && rl.IsGamepadButtonDown(GamePadId, TspStartCode)
 }
 
 func (a *Application) Exit() {
