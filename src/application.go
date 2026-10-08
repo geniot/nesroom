@@ -7,9 +7,9 @@ import (
 )
 
 const (
-	TICK float64 = 1.0 / (60.0 * 4.0)
-
-	MenuSceneKey = iota
+	TICK         float64 = 1.0 / (60.0 * 4.0)
+	SAMPLE_RATE          = 44100
+	MenuSceneKey         = iota
 	GameSceneKey
 	ControlsSceneKey
 )
@@ -26,6 +26,8 @@ type Application struct {
 	sourceRect        rl.Rectangle
 	destRect          rl.Rectangle
 	timestamp         float64
+	audioChannel      chan float32
+	audioStream       rl.AudioStream
 }
 
 func NewApplication(iw bool) *Application {
@@ -42,7 +44,13 @@ func NewApplication(iw bool) *Application {
 		rl.SetWindowSize(int(nes.ScreenLogicalWidth*scaleFactor), int(nes.ScreenLogicalHeight*scaleFactor))
 		rl.SetWindowMonitor(0) //used for testing on multiple monitors
 	}
+
+	rl.SetAudioStreamBufferSizeDefault(4096)
 	rl.InitAudioDevice()
+	app.audioStream = rl.LoadAudioStream(SAMPLE_RATE, 32, 1)
+	app.audioChannel = make(chan float32, SAMPLE_RATE)
+	rl.PlayAudioStream(app.audioStream)
+	rl.SetAudioStreamCallback(app.audioStream, app.Callback)
 
 	setTextStyle(defaultTextStyle)
 
@@ -59,6 +67,12 @@ func NewApplication(iw bool) *Application {
 	app.onResize()
 
 	return &app
+}
+
+func (a *Application) Callback(out []float32, frames int) {
+	for i := range frames {
+		out[i] = <-a.audioChannel
+	}
 }
 
 func (a *Application) onResize() {
@@ -91,9 +105,8 @@ func (a *Application) Update() {
 }
 
 func (a *Application) Render() {
-	a.scenes[a.currentSceneIndex].Render(a.drawTarget)
-
 	rl.BeginDrawing()
+	a.scenes[a.currentSceneIndex].Render(a.drawTarget)
 	rl.ClearBackground(rl.Black)
 	rl.DrawTexturePro(a.drawTarget.Texture,
 		a.sourceRect,
@@ -109,5 +122,7 @@ func (a *Application) ShouldExit() bool {
 }
 
 func (a *Application) Exit() {
+	rl.UnloadAudioStream(a.audioStream)
+	rl.CloseAudioDevice()
 	rl.CloseWindow()
 }

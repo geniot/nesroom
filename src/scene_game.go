@@ -28,6 +28,9 @@ func NewGameScene(a *Application) *GameScene {
 	bytesData, _ := resList.ReadFile("res/tetris.nes")
 	reader := bytes.NewReader(bytesData)
 	gs.console, _ = nes.NewConsole(reader)
+	gs.console.SetAudioChannel(gs.a.audioChannel)
+	gs.console.SetAudioSampleRate(SAMPLE_RATE)
+
 	gs.gameDrawTarget = rl.LoadRenderTexture(nes.ScreenLogicalWidth, nes.ScreenLogicalHeight)
 	gs.gameSourceRect = rl.NewRectangle(0, 0, float32(nes.ScreenLogicalWidth), float32(nes.ScreenLogicalHeight))
 	gs.gameDestRect = rl.NewRectangle(0, 0, float32(nes.ScreenLogicalWidth), float32(nes.ScreenLogicalHeight))
